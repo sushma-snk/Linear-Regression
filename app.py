@@ -1,108 +1,150 @@
-# -*- coding: utf-8 -*-
-"""
-Converted from IPYNB to PY
-"""
-
-# %% [code] Cell 1
-import gradio as gr
+import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Global variables
-x = None
-y = None
+st.set_page_config(
+    page_title="Linear Regression Visualizer",
+    layout="wide"
+)
 
+st.title("📈 Linear Regression Visualizer")
 
-def generate_points(n_points):
-    global x, y
+st.write(
+    """
+Adjust the slope (θ₀) and intercept (θ₁) to fit the regression line
+to the generated dataset.
+"""
+)
 
-    x = np.sort(np.random.uniform(0, 10, n_points))
+# ----------------------------------------------------
+# Session State
+# ----------------------------------------------------
 
-    true_slope = np.random.uniform(0.5, 3.5)
-    true_intercept = np.random.uniform(-2, 4)
+if "x" not in st.session_state:
 
-    noise = np.random.normal(0, 1, n_points)
+    st.session_state.x = None
+    st.session_state.y = None
+    st.session_state.true_slope = None
+    st.session_state.true_intercept = None
 
-    y = true_slope * x + true_intercept + noise
+# ----------------------------------------------------
+# Sidebar
+# ----------------------------------------------------
 
-    fig, ax = plt.subplots(figsize=(6,5))
-    ax.scatter(x, y, color="blue")
-    ax.set_title("Random Data")
-    ax.grid(True)
+st.sidebar.header("Dataset")
 
-    return fig, "Points Generated!"
+num_points = st.sidebar.number_input(
+    "Number of Points",
+    min_value=5,
+    max_value=500,
+    value=30
+)
 
+if st.sidebar.button("Generate Random Dataset"):
 
-def update_line(slope, intercept):
-    global x, y
+    np.random.seed()
 
-    if x is None:
-        return None, "Generate points first."
+    x = np.sort(np.random.uniform(0,10,num_points))
 
-    y_pred = slope * x + intercept
+    true_slope = np.random.uniform(0.5,3.5)
 
-    mse = np.mean((y - y_pred) ** 2)
+    true_intercept = np.random.uniform(-2,4)
 
-    fig, ax = plt.subplots(figsize=(6,5))
+    noise = np.random.normal(0,1,num_points)
 
-    ax.scatter(x, y, color="blue", label="Data")
-    ax.plot(x, y_pred, color="red", linewidth=3, label="Regression Line")
+    y = true_slope*x + true_intercept + noise
 
-    ax.set_xlabel("X")
-    ax.set_ylabel("Y")
-    ax.set_title("Linear Regression")
-    ax.grid(True)
-    ax.legend()
+    st.session_state.x = x
+    st.session_state.y = y
 
-    return fig, f"### MSE = {mse:.4f}"
+    st.session_state.true_slope = true_slope
+    st.session_state.true_intercept = true_intercept
 
+# ----------------------------------------------------
+# Sliders
+# ----------------------------------------------------
 
-with gr.Blocks(title="Linear Regression Demo") as demo:
+theta0 = st.sidebar.slider(
+    "Slope (θ₀)",
+    -10.0,
+    10.0,
+    1.0,
+    0.1
+)
 
-    gr.Markdown("# Linear Regression Visualizer")
+theta1 = st.sidebar.slider(
+    "Intercept (θ₁)",
+    -10.0,
+    10.0,
+    0.0,
+    0.1
+)
 
-    with gr.Row():
-        num_points = gr.Number(value=30, label="Number of Points")
+# ----------------------------------------------------
+# Plot
+# ----------------------------------------------------
 
-        generate_btn = gr.Button("Generate Random Points")
+if st.session_state.x is not None:
 
-    plot = gr.Plot()
+    x = st.session_state.x
+    y = st.session_state.y
 
-    status = gr.Markdown("")
+    y_pred = theta0*x + theta1
 
-    slope = gr.Slider(
-        minimum=-10,
-        maximum=10,
-        value=1,
-        step=0.1,
-        label="Slope (θ₀)"
-    )
+    mse = np.mean((y-y_pred)**2)
 
-    intercept = gr.Slider(
-        minimum=-10,
-        maximum=10,
-        value=0,
-        step=0.1,
-        label="Intercept (θ₁)"
-    )
+    col1,col2 = st.columns([3,1])
 
-    generate_btn.click(
-        generate_points,
-        inputs=num_points,
-        outputs=[plot, status]
-    )
+    with col1:
 
-    slope.change(
-        update_line,
-        inputs=[slope, intercept],
-        outputs=[plot, status]
-    )
+        fig,ax = plt.subplots(figsize=(8,6))
 
-    intercept.change(
-        update_line,
-        inputs=[slope, intercept],
-        outputs=[plot, status]
-    )
+        ax.scatter(
+            x,
+            y,
+            color="royalblue",
+            s=50,
+            label="Random Points"
+        )
 
-if __name__ == "__main__":
-    demo.launch(share=True)
+        ax.plot(
+            x,
+            y_pred,
+            color="crimson",
+            linewidth=3,
+            label="Regression Line"
+        )
+
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+
+        ax.set_title("Linear Regression")
+
+        ax.grid(True)
+
+        ax.legend()
+
+        st.pyplot(fig)
+
+    with col2:
+
+        st.metric(
+            "Mean Squared Error",
+            f"{mse:.4f}"
+        )
+
+        st.markdown("### Current Equation")
+
+        st.latex(
+            rf"y={theta0:.2f}x+{theta1:.2f}"
+        )
+
+        st.markdown("### Hidden True Equation")
+
+        st.latex(
+            rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
+        )
+
+else:
+
+    st.info("Click **Generate Random Dataset** to begin.")
