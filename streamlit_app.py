@@ -205,68 +205,7 @@ if st.session_state.x is not None:
 
         st.pyplot(fig)
 
-    # -----------------------------------------------------
-    # Information Panel
-    # -----------------------------------------------------
-#     with col2:
-
-#         st.subheader("📊 Model Information")
-
-#         st.markdown("### Prediction Equation")
-
-#         st.latex(r"\hat{y}=\theta_0x+\theta_1")
-
-#         st.markdown("### Current Values")
-
-#         st.write(f"**Slope (θ₀):** {theta0:.2f}")
-
-#         st.write(f"**Intercept (θ₁):** {theta1:.2f}")
-
-#         st.divider()
-
-#         st.markdown("### Mean Squared Error")
-
-#         st.metric(
-#             label="Current MSE",
-#             value=f"{mse:.4f}"
-#         )
-
-#         st.markdown("### MSE Formula")
-
-#         st.latex(
-#             r"\mathrm{MSE}=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2"
-#         )
-
-#         with st.expander("📖 Explanation"):
-
-#             st.markdown(
-#                 """
-# **Where:**
-
-# - **n** = Number of observations
-# - **yᵢ** = Actual value
-# - **ŷᵢ** = Predicted value
-# - **(yᵢ − ŷᵢ)²** = Squared error
-
-# The Mean Squared Error (MSE) measures the average squared
-# difference between the observed and predicted values.
-
-# - **Smaller MSE → Better Fit**
-# - **Larger MSE → Poor Fit**
-# """
-#             )
-
-#         st.divider()
-
-#         if st.button("Reveal True Equation"):
-
-#             st.success("Actual Equation Used to Generate the Dataset")
-
-#             st.latex(
-#                 rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
-#             )
-
-with col2:
+    with col2:
 
     st.subheader("📊 Model Information")
 
@@ -345,6 +284,150 @@ The **Best Fit** button computes these values using the **Least Squares Method**
         st.latex(
             rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
         )
+
+
+    # -----------------------------------------------------
+    # Information Panel
+    # -----------------------------------------------------
+
+#     with col2:
+
+#         st.subheader("📊 Model Information")
+
+#         st.markdown("### Prediction Equation")
+
+#         st.latex(r"\hat{y}=\theta_0x+\theta_1")
+
+#         st.markdown("### Current Values")
+
+#         st.write(f"**Slope (θ₀):** {theta0:.2f}")
+
+#         st.write(f"**Intercept (θ₁):** {theta1:.2f}")
+
+#         st.divider()
+
+#         st.markdown("### Mean Squared Error")
+
+#         st.metric(
+#             label="Current MSE",
+#             value=f"{mse:.4f}"
+#         )
+
+#         st.markdown("### MSE Formula")
+
+#         st.latex(
+#             r"\mathrm{MSE}=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2"
+#         )
+
+#         with st.expander("📖 Explanation"):
+
+#             st.markdown(
+#                 """
+# **Where:**
+
+# - **n** = Number of observations
+# - **yᵢ** = Actual value
+# - **ŷᵢ** = Predicted value
+# - **(yᵢ − ŷᵢ)²** = Squared error
+
+# The Mean Squared Error (MSE) measures the average squared
+# difference between the observed and predicted values.
+
+# - **Smaller MSE → Better Fit**
+# - **Larger MSE → Poor Fit**
+# """
+#             )
+
+#         st.divider()
+
+#         if st.button("Reveal True Equation"):
+
+#             st.success("Actual Equation Used to Generate the Dataset")
+
+#             st.latex(
+#                 rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
+#             )
+
+
+# with col2:
+
+#     st.subheader("📊 Model Information")
+
+#     # Current Equation
+#     st.markdown("### Prediction Equation")
+
+#     st.latex(r"\hat{y}=\theta_0x+\theta_1")
+
+#     st.markdown("### Current Values")
+
+#     st.write(f"**Slope (θ₀):** {theta0:.2f}")
+#     st.write(f"**Intercept (θ₁):** {theta1:.2f}")
+
+#     st.divider()
+
+#     # Current MSE
+#     st.markdown("### Mean Squared Error")
+
+#     st.metric(
+#         "Current MSE",
+#         f"{mse:.4f}"
+#     )
+
+#     # ---------------------------------------------------
+#     # Least Squares Solution
+#     # ---------------------------------------------------
+
+#     best_slope, best_intercept = np.polyfit(x, y, 1)
+
+#     best_predictions = best_slope * x + best_intercept
+
+#     best_mse = np.mean((y - best_predictions) ** 2)
+
+#     st.divider()
+
+#     st.markdown("### 🎯 Optimal Least-Squares Solution")
+
+#     st.latex(
+#         rf"\hat{{y}}={best_slope:.2f}x+{best_intercept:.2f}"
+#     )
+
+#     st.metric(
+#         "Optimal MSE",
+#         f"{best_mse:.4f}"
+#     )
+
+#     st.divider()
+
+#     st.markdown("### MSE Formula")
+
+#     st.latex(
+#         r"\mathrm{MSE}=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2"
+#     )
+
+#     with st.expander("📖 Explanation"):
+
+#         st.markdown("""
+# **Where**
+
+# - **n** : Number of observations
+# - **yᵢ** : Actual values
+# - **ŷᵢ** : Predicted values
+# - **(yᵢ-ŷᵢ)²** : Squared error
+
+# The objective of Linear Regression is to find the slope and intercept that **minimize the Mean Squared Error (MSE).**
+
+# The **Best Fit** button computes these values using the **Least Squares Method**.
+# """)
+
+#     st.divider()
+
+#     if st.button("Reveal True Equation"):
+
+#         st.success("Equation Used to Generate the Dataset")
+
+#         st.latex(
+#             rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
+#         )
 
 else:
 
