@@ -103,13 +103,13 @@ if st.session_state.x is not None:
     # -----------------------------------------------------
     with col1:
 
-        fig, ax = plt.subplots(figsize=(9, 6))
+        fig, ax = plt.subplots(figsize=(7, 5))
 
         ax.scatter(
             x,
             y,
             color="royalblue",
-            s=60,
+            s=50,
             label="Observed Data"
         )
 
@@ -138,46 +138,31 @@ if st.session_state.x is not None:
     with col2:
 
         st.subheader("📊 Model Information")
-
         st.markdown("### Prediction Equation")
-
         st.latex(r"\hat{y}=\theta_0x+\theta_1")
-
         st.markdown("### Current Values")
-
         st.write(f"**Slope (θ₀):** {theta0:.2f}")
-
         st.write(f"**Intercept (θ₁):** {theta1:.2f}")
-
         st.divider()
-
         st.markdown("### Mean Squared Error")
-
         st.metric(
             label="Current MSE",
             value=f"{mse:.4f}"
         )
-
         st.markdown("### MSE Formula")
-
         st.latex(
             r"\mathrm{MSE}=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2"
         )
-
         with st.expander("📖 Explanation"):
-
             st.markdown(
                 """
 **Where:**
-
 - **n** = Number of observations
 - **yᵢ** = Actual value
 - **ŷᵢ** = Predicted value
 - **(yᵢ − ŷᵢ)²** = Squared error
-
 The Mean Squared Error (MSE) measures the average squared
 difference between the observed and predicted values.
-
 - **Smaller MSE → Better Fit**
 - **Larger MSE → Poor Fit**
 """
