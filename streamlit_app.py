@@ -30,11 +30,27 @@ This interactive application demonstrates how the **Slope (θ₀)** and
 # ---------------------------------------------------------
 # Session State
 # ---------------------------------------------------------    
+# if "x" not in st.session_state:
+#     st.session_state.x = None
+#     st.session_state.y = None
+#     st.session_state.true_slope = None
+#     st.session_state.true_intercept = None
+
+# ---------------------------------------------------------
+# Session State
+# ---------------------------------------------------------
+
 if "x" not in st.session_state:
     st.session_state.x = None
     st.session_state.y = None
     st.session_state.true_slope = None
     st.session_state.true_intercept = None
+
+if "theta0" not in st.session_state:
+    st.session_state.theta0 = 1.00
+
+if "theta1" not in st.session_state:
+    st.session_state.theta1 = 0.00
 
 # ---------------------------------------------------------
 # Sidebar
@@ -67,22 +83,103 @@ if st.sidebar.button("Generate Random Dataset"):
 
     st.session_state.true_slope = true_slope
     st.session_state.true_intercept = true_intercept
+    
+    st.session_state.theta0 = 1.00
+    st.session_state.theta1 = 0.00
 
-theta0 = st.sidebar.slider(
-    "Slope (θ₀)",
+
+# =========================================================
+# θ0 Controls
+# =========================================================
+
+st.sidebar.markdown("### Slope (θ₀)")
+
+c1, c2, c3 = st.sidebar.columns([1,6,1])
+
+with c1:
+    if st.button("−", key="theta0_minus"):
+        st.session_state.theta0 = round(max(-10.0, st.session_state.theta0-0.01),2)
+
+with c3:
+    if st.button("+", key="theta0_plus"):
+        st.session_state.theta0 = round(min(10.0, st.session_state.theta0+0.01),2)
+
+theta0 = c2.number_input(
+    "",
     min_value=-10.0,
     max_value=10.0,
-    value=1.0,
-    step=0.1
+    value=st.session_state.theta0,
+    step=0.01,
+    key="theta0_input"
 )
 
-theta1 = st.sidebar.slider(
-    "Intercept (θ₁)",
+theta0 = c2.slider(
+    "",
+    -10.0,
+    10.0,
+    theta0,
+    step=0.01,
+    key="theta0_slider"
+)
+
+st.session_state.theta0 = theta0
+
+
+# =========================================================
+# θ1 Controls
+# =========================================================
+
+st.sidebar.markdown("### Intercept (θ₁)")
+
+c1, c2, c3 = st.sidebar.columns([1,6,1])
+
+with c1:
+    if st.button("−", key="theta1_minus"):
+        st.session_state.theta1 = round(max(-10.0, st.session_state.theta1-0.01),2)
+
+with c3:
+    if st.button("+", key="theta1_plus"):
+        st.session_state.theta1 = round(min(10.0, st.session_state.theta1+0.01),2)
+
+theta1 = c2.number_input(
+    "",
     min_value=-10.0,
     max_value=10.0,
-    value=0.0,
-    step=0.1
+    value=st.session_state.theta1,
+    step=0.01,
+    key="theta1_input"
 )
+
+theta1 = c2.slider(
+    "",
+    -10.0,
+    10.0,
+    theta1,
+    step=0.01,
+    key="theta1_slider"
+)
+
+st.session_state.theta1 = theta1
+
+theta0 = st.session_state.theta0
+theta1 = st.session_state.theta1
+
+
+# theta0 = st.sidebar.slider(
+#     "Slope (θ₀)",
+#     min_value=-10.0,
+#     max_value=10.0,
+#     value=1.0,
+#     step=0.1
+# )
+
+# theta1 = st.sidebar.slider(
+#     "Intercept (θ₁)",
+#     min_value=-10.0,
+#     max_value=10.0,
+#     value=0.0,
+#     step=0.1
+# )
 
 # ---------------------------------------------------------
 # Main Display
@@ -140,9 +237,14 @@ if st.session_state.x is not None:
         st.subheader("📊 Model Information")
         st.markdown("### Prediction Equation")
         st.latex(r"\hat{y}=\theta_0x+\theta_1")
-        st.markdown("### Current Values")
-        st.write(f"**Slope (θ₀):** {theta0:.2f}")
-        st.write(f"**Intercept (θ₁):** {theta1:.2f}")
+        st.markdown("### Current Regression Equation")
+
+        st.latex(
+            rf"\hat{{y}}={theta0:.2f}x+({theta1:.2f})"
+        )
+        # st.markdown("### Current Values")
+        # st.write(f"**Slope (θ₀):** {theta0:.2f}")
+        # st.write(f"**Intercept (θ₁):** {theta1:.2f}")
         st.divider()
         st.markdown("### Mean Squared Error")
         st.metric(
