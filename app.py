@@ -105,4 +105,4 @@ with gr.Blocks(title="Linear Regression Demo") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(share=True)
