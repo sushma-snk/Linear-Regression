@@ -149,7 +149,6 @@
 
 #     st.info("Click **Generate Random Dataset** to begin.")
 
-```python
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -348,5 +347,4 @@ difference between the observed and predicted values.
 else:
 
     st.info("👈 Click **Generate Random Dataset** from the sidebar to begin.")
-```
 
