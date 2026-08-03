@@ -1,58 +1,218 @@
+# import streamlit as st
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# st.set_page_config(
+#     page_title="Linear Regression Visualizer",
+#     layout="wide"
+# )
+
+# st.title("📈 Linear Regression Visualizer")
+
+# st.write(
+#     """
+# Adjust the slope (θ₀) and intercept (θ₁) to fit the regression line
+# to the generated dataset.
+# """
+# )
+
+# # ----------------------------------------------------
+# # Session State
+# # ----------------------------------------------------
+
+# if "x" not in st.session_state:
+
+#     st.session_state.x = None
+#     st.session_state.y = None
+#     st.session_state.true_slope = None
+#     st.session_state.true_intercept = None
+
+# # ----------------------------------------------------
+# # Sidebar
+# # ----------------------------------------------------
+
+# st.sidebar.header("Dataset")
+
+# num_points = st.sidebar.number_input(
+#     "Number of Points",
+#     min_value=5,
+#     max_value=500,
+#     value=30
+# )
+
+# if st.sidebar.button("Generate Random Dataset"):
+
+#     np.random.seed()
+
+#     x = np.sort(np.random.uniform(0,10,num_points))
+
+#     true_slope = np.random.uniform(0.5,3.5)
+
+#     true_intercept = np.random.uniform(-2,4)
+
+#     noise = np.random.normal(0,1,num_points)
+
+#     y = true_slope*x + true_intercept + noise
+
+#     st.session_state.x = x
+#     st.session_state.y = y
+
+#     st.session_state.true_slope = true_slope
+#     st.session_state.true_intercept = true_intercept
+
+# # ----------------------------------------------------
+# # Sliders
+# # ----------------------------------------------------
+
+# theta0 = st.sidebar.slider(
+#     "Slope (θ₀)",
+#     -10.0,
+#     10.0,
+#     1.0,
+#     0.1
+# )
+
+# theta1 = st.sidebar.slider(
+#     "Intercept (θ₁)",
+#     -10.0,
+#     10.0,
+#     0.0,
+#     0.1
+# )
+
+# # ----------------------------------------------------
+# # Plot
+# # ----------------------------------------------------
+
+# if st.session_state.x is not None:
+
+#     x = st.session_state.x
+#     y = st.session_state.y
+
+#     y_pred = theta0*x + theta1
+
+#     mse = np.mean((y-y_pred)**2)
+
+#     col1,col2 = st.columns([3,1])
+
+#     with col1:
+
+#         fig,ax = plt.subplots(figsize=(8,6))
+
+#         ax.scatter(
+#             x,
+#             y,
+#             color="royalblue",
+#             s=50,
+#             label="Random Points"
+#         )
+
+#         ax.plot(
+#             x,
+#             y_pred,
+#             color="crimson",
+#             linewidth=3,
+#             label="Regression Line"
+#         )
+
+#         ax.set_xlabel("X")
+#         ax.set_ylabel("Y")
+
+#         ax.set_title("Linear Regression")
+
+#         ax.grid(True)
+
+#         ax.legend()
+
+#         st.pyplot(fig)
+
+#     with col2:
+
+#         st.metric(
+#             "Mean Squared Error",
+#             f"{mse:.4f}"
+#         )
+
+#         st.markdown("### Current Equation")
+
+#         st.latex(
+#             rf"y={theta0:.2f}x+{theta1:.2f}"
+#         )
+
+#         st.markdown("### Hidden True Equation")
+
+#         st.latex(
+#             rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
+#         )
+
+# else:
+
+#     st.info("Click **Generate Random Dataset** to begin.")
+
+```python
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
+# ---------------------------------------------------------
+# Page Configuration
+# ---------------------------------------------------------
 st.set_page_config(
     page_title="Linear Regression Visualizer",
+    page_icon="📈",
     layout="wide"
 )
 
 st.title("📈 Linear Regression Visualizer")
-
 st.write(
     """
-Adjust the slope (θ₀) and intercept (θ₁) to fit the regression line
-to the generated dataset.
+This interactive application demonstrates how the **Slope (θ₀)** and
+**Intercept (θ₁)** affect the regression line and the corresponding
+**Mean Squared Error (MSE)**.
+
+### Instructions
+1. Select the number of random points.
+2. Click **Generate Random Dataset**.
+3. Adjust the sliders to fit the regression line.
+4. Observe how the **MSE** changes.
+5. Click **Reveal True Equation** to compare your estimate.
 """
 )
 
-# ----------------------------------------------------
+# ---------------------------------------------------------
 # Session State
-# ----------------------------------------------------
-
+# ---------------------------------------------------------
 if "x" not in st.session_state:
-
     st.session_state.x = None
     st.session_state.y = None
     st.session_state.true_slope = None
     st.session_state.true_intercept = None
 
-# ----------------------------------------------------
+# ---------------------------------------------------------
 # Sidebar
-# ----------------------------------------------------
-
-st.sidebar.header("Dataset")
+# ---------------------------------------------------------
+st.sidebar.title("Controls")
 
 num_points = st.sidebar.number_input(
     "Number of Points",
     min_value=5,
     max_value=500,
-    value=30
+    value=30,
+    step=5
 )
 
 if st.sidebar.button("Generate Random Dataset"):
 
     np.random.seed()
 
-    x = np.sort(np.random.uniform(0,10,num_points))
+    x = np.sort(np.random.uniform(0, 10, num_points))
 
-    true_slope = np.random.uniform(0.5,3.5)
+    true_slope = np.random.uniform(0.5, 3.5)
+    true_intercept = np.random.uniform(-2, 4)
 
-    true_intercept = np.random.uniform(-2,4)
+    noise = np.random.normal(0, 1, num_points)
 
-    noise = np.random.normal(0,1,num_points)
-
-    y = true_slope*x + true_intercept + noise
+    y = true_slope * x + true_intercept + noise
 
     st.session_state.x = x
     st.session_state.y = y
@@ -60,51 +220,49 @@ if st.sidebar.button("Generate Random Dataset"):
     st.session_state.true_slope = true_slope
     st.session_state.true_intercept = true_intercept
 
-# ----------------------------------------------------
-# Sliders
-# ----------------------------------------------------
-
 theta0 = st.sidebar.slider(
     "Slope (θ₀)",
-    -10.0,
-    10.0,
-    1.0,
-    0.1
+    min_value=-10.0,
+    max_value=10.0,
+    value=1.0,
+    step=0.1
 )
 
 theta1 = st.sidebar.slider(
     "Intercept (θ₁)",
-    -10.0,
-    10.0,
-    0.0,
-    0.1
+    min_value=-10.0,
+    max_value=10.0,
+    value=0.0,
+    step=0.1
 )
 
-# ----------------------------------------------------
-# Plot
-# ----------------------------------------------------
-
+# ---------------------------------------------------------
+# Main Display
+# ---------------------------------------------------------
 if st.session_state.x is not None:
 
     x = st.session_state.x
     y = st.session_state.y
 
-    y_pred = theta0*x + theta1
+    y_pred = theta0 * x + theta1
 
-    mse = np.mean((y-y_pred)**2)
+    mse = np.mean((y - y_pred) ** 2)
 
-    col1,col2 = st.columns([3,1])
+    col1, col2 = st.columns([3, 1])
 
+    # -----------------------------------------------------
+    # Plot
+    # -----------------------------------------------------
     with col1:
 
-        fig,ax = plt.subplots(figsize=(8,6))
+        fig, ax = plt.subplots(figsize=(9, 6))
 
         ax.scatter(
             x,
             y,
             color="royalblue",
-            s=50,
-            label="Random Points"
+            s=60,
+            label="Observed Data"
         )
 
         ax.plot(
@@ -115,10 +273,10 @@ if st.session_state.x is not None:
             label="Regression Line"
         )
 
-        ax.set_xlabel("X")
-        ax.set_ylabel("Y")
-
         ax.set_title("Linear Regression")
+
+        ax.set_xlabel("Independent Variable (x)")
+        ax.set_ylabel("Dependent Variable (y)")
 
         ax.grid(True)
 
@@ -126,25 +284,69 @@ if st.session_state.x is not None:
 
         st.pyplot(fig)
 
+    # -----------------------------------------------------
+    # Information Panel
+    # -----------------------------------------------------
     with col2:
 
+        st.subheader("📊 Model Information")
+
+        st.markdown("### Prediction Equation")
+
+        st.latex(r"\hat{y}=\theta_0x+\theta_1")
+
+        st.markdown("### Current Values")
+
+        st.write(f"**Slope (θ₀):** {theta0:.2f}")
+
+        st.write(f"**Intercept (θ₁):** {theta1:.2f}")
+
+        st.divider()
+
+        st.markdown("### Mean Squared Error")
+
         st.metric(
-            "Mean Squared Error",
-            f"{mse:.4f}"
+            label="Current MSE",
+            value=f"{mse:.4f}"
         )
 
-        st.markdown("### Current Equation")
+        st.markdown("### MSE Formula")
 
         st.latex(
-            rf"y={theta0:.2f}x+{theta1:.2f}"
+            r"\mathrm{MSE}=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2"
         )
 
-        st.markdown("### Hidden True Equation")
+        with st.expander("📖 Explanation"):
 
-        st.latex(
-            rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
-        )
+            st.markdown(
+                """
+**Where:**
+
+- **n** = Number of observations
+- **yᵢ** = Actual value
+- **ŷᵢ** = Predicted value
+- **(yᵢ − ŷᵢ)²** = Squared error
+
+The Mean Squared Error (MSE) measures the average squared
+difference between the observed and predicted values.
+
+- **Smaller MSE → Better Fit**
+- **Larger MSE → Poor Fit**
+"""
+            )
+
+        st.divider()
+
+        if st.button("Reveal True Equation"):
+
+            st.success("Actual Equation Used to Generate the Dataset")
+
+            st.latex(
+                rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
+            )
 
 else:
 
-    st.info("Click **Generate Random Dataset** to begin.")
+    st.info("👈 Click **Generate Random Dataset** from the sidebar to begin.")
+```
+
