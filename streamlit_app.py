@@ -29,151 +29,60 @@ This interactive application demonstrates how the **Slope (θ₀)** and
 
 # ---------------------------------------------------------
 # Session State
-# ---------------------------------------------------------
-# ---------------------------------------------------------
-# Session State
-# ---------------------------------------------------------
+# ---------------------------------------------------------    
 if "x" not in st.session_state:
     st.session_state.x = None
     st.session_state.y = None
     st.session_state.true_slope = None
     st.session_state.true_intercept = None
 
-if "theta0" not in st.session_state:
-    st.session_state.theta0 = 1.0
-
-if "theta1" not in st.session_state:
-    st.session_state.theta1 = 0.0
-    
-# if "x" not in st.session_state:
-#     st.session_state.x = None
-#     st.session_state.y = None
-#     st.session_state.true_slope = None
-#     st.session_state.true_intercept = None
-
 # ---------------------------------------------------------
 # Sidebar
 # ---------------------------------------------------------
-# ---------------------------------------------------------
-# θ0 Controls
-# ---------------------------------------------------------
+st.sidebar.title("Controls")
 
-st.sidebar.markdown("### Slope (θ₀)")
-
-c1, c2, c3 = st.sidebar.columns([1,4,1])
-
-with c1:
-    if st.button("−", key="minus_theta0"):
-        st.session_state.theta0 = max(-10.0, st.session_state.theta0 - 0.01)
-
-with c3:
-    if st.button("+", key="plus_theta0"):
-        st.session_state.theta0 = min(10.0, st.session_state.theta0 + 0.01)
-
-theta0 = c2.slider(
-    "",
-    -10.0,
-    10.0,
-    value=st.session_state.theta0,
-    step=0.01,
-    key="theta0_slider"
+num_points = st.sidebar.number_input(
+    "Number of Points",
+    min_value=5,
+    max_value=500,
+    value=30,
+    step=5
 )
 
-theta0 = c2.number_input(
-    "Enter θ₀",
+if st.sidebar.button("Generate Random Dataset"):
+
+    np.random.seed()
+
+    x = np.sort(np.random.uniform(0, 10, num_points))
+
+    true_slope = np.random.uniform(0.5, 3.5)
+    true_intercept = np.random.uniform(-2, 4)
+
+    noise = np.random.normal(0, 1, num_points)
+
+    y = true_slope * x + true_intercept + noise
+
+    st.session_state.x = x
+    st.session_state.y = y
+
+    st.session_state.true_slope = true_slope
+    st.session_state.true_intercept = true_intercept
+
+theta0 = st.sidebar.slider(
+    "Slope (θ₀)",
     min_value=-10.0,
     max_value=10.0,
-    value=float(theta0),
-    step=0.01,
-    key="theta0_input"
+    value=1.0,
+    step=0.1
 )
 
-st.session_state.theta0 = theta0
-
-
-# ---------------------------------------------------------
-# θ1 Controls
-# ---------------------------------------------------------
-
-st.sidebar.markdown("### Intercept (θ₁)")
-
-c1, c2, c3 = st.sidebar.columns([1,4,1])
-
-with c1:
-    if st.button("−", key="minus_theta1"):
-        st.session_state.theta1 = max(-10.0, st.session_state.theta1 - 0.01)
-
-with c3:
-    if st.button("+", key="plus_theta1"):
-        st.session_state.theta1 = min(10.0, st.session_state.theta1 + 0.01)
-
-theta1 = c2.slider(
-    "",
-    -10.0,
-    10.0,
-    value=st.session_state.theta1,
-    step=0.01,
-    key="theta1_slider"
-)
-
-theta1 = c2.number_input(
-    "Enter θ₁",
+theta1 = st.sidebar.slider(
+    "Intercept (θ₁)",
     min_value=-10.0,
     max_value=10.0,
-    value=float(theta1),
-    step=0.01,
-    key="theta1_input"
+    value=0.0,
+    step=0.1
 )
-
-st.session_state.theta1 = theta1
-
-theta0 = st.session_state.theta0
-theta1 = st.session_state.theta1
-
-# st.sidebar.title("Controls")
-
-# num_points = st.sidebar.number_input(
-#     "Number of Points",
-#     min_value=5,
-#     max_value=500,
-#     value=30,
-#     step=5
-# )
-
-# if st.sidebar.button("Generate Random Dataset"):
-
-#     np.random.seed()
-
-#     x = np.sort(np.random.uniform(0, 10, num_points))
-
-#     true_slope = np.random.uniform(0.5, 3.5)
-#     true_intercept = np.random.uniform(-2, 4)
-
-#     noise = np.random.normal(0, 1, num_points)
-
-#     y = true_slope * x + true_intercept + noise
-
-#     st.session_state.x = x
-#     st.session_state.y = y
-
-#     st.session_state.true_slope = true_slope
-#     st.session_state.true_intercept = true_intercept
-
-# theta0 = st.sidebar.slider(
-#     "Slope (θ₀)",
-#     min_value=-10.0,
-#     max_value=10.0,
-#     value=1.0,
-#     step=0.1
-# )
-
-# theta1 = st.sidebar.slider(
-#     "Intercept (θ₁)",
-#     min_value=-10.0,
-#     max_value=10.0,
-#     value=0.0,
-#     step=0.1
-# )
 
 # ---------------------------------------------------------
 # Main Display
