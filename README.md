@@ -31,29 +31,6 @@ The application is designed as a teaching and learning tool for students studyin
 
 ---
 
-## Installation
-
-Clone the repository
-
-```bash
-git clone https://github.com/your-username/Linear-Regression.git
-cd Linear-Regression
-```
-
-Install the dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Run the application
-
-```bash
-streamlit run streamlit_app.py
-```
-
----
-
 ## Project Structure
 
 ```
