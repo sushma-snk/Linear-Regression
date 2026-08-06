@@ -429,7 +429,7 @@ st.session_state.theta0_slider = st.session_state.theta0
 st.session_state.theta0_input = st.session_state.theta0
 
 st.sidebar.markdown("**Slope (θ₀)**")
-minus0, slider0, plus0 = st.sidebar.columns([1.6, 5, 1.4], vertical_alignment="bottom")
+minus0, slider0, plus0 = st.sidebar.columns([1.6, 5, 1.6], vertical_alignment="bottom")
 # minus0, slider0, plus0 = st.sidebar.columns([1, 6, 1])
 
 with minus0:
@@ -465,7 +465,9 @@ st.session_state.theta1_slider = st.session_state.theta1
 st.session_state.theta1_input = st.session_state.theta1
 
 st.sidebar.markdown("**Intercept (θ₁)**")
-minus1, slider1, plus1 = st.sidebar.columns([1, 6, 1])
+# minus1, slider1, plus1 = st.sidebar.columns([1, 6, 1])
+minus1, slider1, plus1 = st.sidebar.columns([1.6, 5, 1.6], vertical_alignment="bottom")
+
 
 with minus1:
     st.button("➖", key="theta1_minus_btn", on_click=_decrement_theta1)
