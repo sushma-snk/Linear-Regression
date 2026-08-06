@@ -308,7 +308,7 @@ difference between the observed and predicted values.
             st.latex(
                 rf"y={st.session_state.true_slope:.2f}x+{st.session_state.true_intercept:.2f}"
             )
-
+            
 else:
 
     st.info("👈 Click **Generate Random Dataset** from the sidebar to begin.")
