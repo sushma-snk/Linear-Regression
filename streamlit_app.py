@@ -429,8 +429,8 @@ st.session_state.theta0_slider = st.session_state.theta0
 st.session_state.theta0_input = st.session_state.theta0
 
 st.sidebar.markdown("**Slope (θ₀)**")
-minus0, slider0, plus0 = st.sidebar.columns([1.2, 5.6, 1.2], vertical_alignment="bottom")
-# minus0, slider0, plus0 = st.sidebar.columns([1, 6, 1])
+# minus0, slider0, plus0 = st.sidebar.columns([1.2, 5.6, 1.2], vertical_alignment="bottom")
+minus0, slider0, plus0 = st.sidebar.columns([1, 6, 1])
 
 with minus0:
     st.button("➖", key="theta0_minus_btn", on_click=_decrement_theta0)
