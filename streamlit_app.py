@@ -400,7 +400,9 @@ if st.sidebar.button("Generate Random Dataset"):
 
     noise = np.random.normal(0, 1, num_points)
 
-    y = true_slope * x + true_intercept + noise
+    y = true_slope * x + true_intercept
+
+    # y = true_slope * x + true_intercept + noise
 
     st.session_state.x = x
     st.session_state.y = y
