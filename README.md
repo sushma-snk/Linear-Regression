@@ -49,7 +49,7 @@ pip install -r requirements.txt
 Run the application
 
 ```bash
-streamlit run app.py
+streamlit run streamlit_app.py
 ```
 
 ---
@@ -59,7 +59,7 @@ streamlit run app.py
 ```
 Linear-Regression/
 │
-├── app.py
+├── streamlit_app.py
 ├── requirements.txt
 └── README.md/
 ```
