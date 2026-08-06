@@ -47,6 +47,8 @@ Linear-Regression/
 
 This project was developed as an interactive educational tool to help students visualize how Linear Regression works. Instead of only studying equations, users can interactively modify the slope and intercept of the regression line and immediately observe the resulting changes in the model fit and Mean Squared Error.
 
+https://linear-regression-xdhukfn8encnmmbtspfb5g.streamlit.app/
+
 ---
 
 ## License
