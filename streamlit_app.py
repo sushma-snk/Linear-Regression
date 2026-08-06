@@ -429,7 +429,7 @@ st.session_state.theta0_slider = st.session_state.theta0
 st.session_state.theta0_input = st.session_state.theta0
 
 st.sidebar.markdown("**Slope (θ₀)**")
-minus0, slider0, plus0 = st.sidebar.columns([1, 5.4, 1], vertical_alignment="bottom")
+minus0, slider0, plus0 = st.sidebar.columns([1.2, 5.4, 1.2], vertical_alignment="bottom")
 # minus0, slider0, plus0 = st.sidebar.columns([1, 6, 1])
 
 with minus0:
