@@ -324,6 +324,12 @@ if "x" not in st.session_state:
     st.session_state.true_slope = None
     st.session_state.true_intercept = None
 
+if "xlim" not in st.session_state:
+    st.session_state.xlim = None
+
+if "ylim" not in st.session_state:
+    st.session_state.ylim = None
+
 # Canonical values for theta0 (slope) and theta1 (intercept)
 if "theta0" not in st.session_state:
     st.session_state.theta0 = 1.0
@@ -398,6 +404,20 @@ if st.sidebar.button("Generate Random Dataset"):
 
     st.session_state.x = x
     st.session_state.y = y
+
+    # Store fixed axis limits
+    x_margin = (x.max() - x.min()) * 0.05
+    y_margin = (y.max() - y.min()) * 0.15
+    
+    st.session_state.xlim = (
+        x.min() - x_margin,
+        x.max() + x_margin
+    )
+    
+    st.session_state.ylim = (
+        y.min() - y_margin,
+        y.max() + y_margin
+    )
 
     st.session_state.true_slope = true_slope
     st.session_state.true_intercept = true_intercept
@@ -516,6 +536,10 @@ if st.session_state.x is not None:
 
         ax.set_xlabel("Independent Variable (x)")
         ax.set_ylabel("Dependent Variable (y)")
+
+        # Keep axes fixed until a new dataset is generated
+        ax.set_xlim(st.session_state.xlim)
+        ax.set_ylim(st.session_state.ylim)
 
         ax.grid(True)
 
